@@ -6,6 +6,7 @@ import org.bahmni.reports.filter.JasperResponseConverter;
 import org.bahmni.reports.model.AllDatasources;
 import org.bahmni.reports.persistence.ScheduledReport;
 import org.bahmni.reports.scheduler.ReportsScheduler;
+import org.bahmni.reports.util.BahmniLocale;
 import org.bahmni.webclients.HttpClient;
 import org.bahmni.webclients.WebClientsException;
 import org.quartz.SchedulerException;
@@ -48,6 +49,7 @@ public class MainReportController {
     @RequestMapping(value = "/report", method = RequestMethod.GET)
     public void getReport(ReportParams reportParams, HttpServletResponse response) {
         try {
+            if(!reportParams.getLocale().isEmpty()) BahmniLocale.setLocaleName(reportParams.getLocale());
             converter.applyHttpHeaders(reportParams.getResponseType(), response, reportParams.getName());
             ReportGenerator reportGenerator = new ReportGenerator(reportParams, response.getOutputStream(), allDatasources, bahmniReportsProperties, httpClient, converter);
             reportGenerator.invoke();

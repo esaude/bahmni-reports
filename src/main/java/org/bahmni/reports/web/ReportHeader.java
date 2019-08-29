@@ -4,6 +4,7 @@ import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.report.builder.component.HorizontalListBuilder;
 import net.sf.dynamicreports.report.constant.HorizontalAlignment;
 import org.bahmni.reports.template.Templates;
+import org.bahmni.reports.util.BahmniLocale;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,6 +17,22 @@ public class ReportHeader {
         HorizontalListBuilder headerList = cmp.horizontalList();
 
         addTitle(reportName, headerList);
+
+        addDatesSubHeader(startDate, endDate, headerList);
+
+        addReportGeneratedDateSubHeader(headerList);
+
+        addVerticalGap(headerList);
+
+        jasperReportBuilder.addTitle(headerList);
+
+        return jasperReportBuilder;
+    }
+
+    public JasperReportBuilder add(JasperReportBuilder jasperReportBuilder, String reportName, String title, String startDate, String endDate) {
+        HorizontalListBuilder headerList = cmp.horizontalList();
+
+        addTitle(title, headerList);
 
         addDatesSubHeader(startDate, endDate, headerList);
 
@@ -43,17 +60,19 @@ public class ReportHeader {
 
     private void addDatesSubHeader(String startDate, String endDate, HorizontalListBuilder headerList) {
         if (startDate.equalsIgnoreCase("null") || endDate.equalsIgnoreCase("null")) return;
-
-        headerList.add(cmp.text("From " + startDate + " to " + endDate)
+        String from  = BahmniLocale.getResourceBundle().getString("FROM");
+        String to  = BahmniLocale.getResourceBundle().getString("TO");
+        headerList.add(cmp.text(String.format("%s %s %s %s",from, startDate, to, endDate))
                 .setStyle(Templates.bold12CenteredStyle)
                 .setHorizontalAlignment(HorizontalAlignment.CENTER))
                 .newRow();
     }
 
     private void addReportGeneratedDateSubHeader(HorizontalListBuilder headerList) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
         String dateString = simpleDateFormat.format(new Date());
-        headerList.add(cmp.text("Report Generated On: " + dateString)
+        String reportGenerated = BahmniLocale.getResourceBundle().getString("REPORT_GENERATED_ON");
+        headerList.add(cmp.text(reportGenerated + " " + dateString)
                 .setStyle(Templates.bold12CenteredStyle)
                 .setHorizontalAlignment(HorizontalAlignment.CENTER))
                 .newRow();
