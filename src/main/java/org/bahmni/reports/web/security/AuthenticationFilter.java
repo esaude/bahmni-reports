@@ -1,6 +1,9 @@
 package org.bahmni.reports.web.security;
 
+import org.apache.log4j.Logger;
 import org.bahmni.reports.BahmniReportsProperties;
+import org.bahmni.reports.util.BahmniLocale;
+import org.bahmni.reports.web.ReportGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -13,6 +16,7 @@ import java.net.URLEncoder;
 
 @Component(value = "authenticationFilter")
 public class AuthenticationFilter extends HandlerInterceptorAdapter {
+    private static final Logger logger = Logger.getLogger(AuthenticationFilter.class);
 
     public static final String REPORTING_COOKIE_NAME = "reporting_session";
     private OpenMRSAuthenticator authenticator;
@@ -30,7 +34,7 @@ public class AuthenticationFilter extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (handler == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND,
-                    "Reports application cannot handle url " + request.getRequestURI());
+                    BahmniLocale.getResourceBundle().getString("CANT_HANDLE_URL_ERROR") + " " + request.getRequestURI());
             return false;
         }
 
@@ -51,7 +55,7 @@ public class AuthenticationFilter extends HandlerInterceptorAdapter {
                 return true;
             case UNAUTHORIZED:
                 response.sendError(HttpServletResponse.SC_FORBIDDEN,
-                        "Privileges is required to access reports");
+                        BahmniLocale.getResourceBundle().getString("PRIVILEGES_REQUIRED_ERROR"));
                 return false;
             default:
                 return redirectToLogin(request, response);
@@ -60,7 +64,7 @@ public class AuthenticationFilter extends HandlerInterceptorAdapter {
 
     private boolean redirectToLogin(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         httpServletResponse.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-        httpServletResponse.getWriter().write("Please login to continue");
+        httpServletResponse.getWriter().write(BahmniLocale.getResourceBundle().getString("LOG_IN_TO_CONTINUE"));
 
         StringBuffer redirectUrl = new StringBuffer();
         redirectUrl.append(properties.getBahmniLoginUrl());

@@ -16,6 +16,8 @@ public class ReportParams implements Serializable {
     private String paperSize;
     private String appName;
     private String userName;
+    private String titleKey;
+    private String locale;
 
     public String getStartDate() {
         return startDate;
@@ -79,5 +81,21 @@ public class ReportParams implements Serializable {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getTitleKey() {
+        return titleKey != null ? titleKey : name;
+    }
+
+    public void setTitleKey(String titleKey) {
+        this.titleKey = titleKey;
+    }
+
+    public String getLocale() {
+        return locale;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
     }
 }

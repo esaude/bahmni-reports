@@ -10,6 +10,7 @@ import org.bahmni.reports.model.Report;
 import org.bahmni.reports.model.Reports;
 import org.bahmni.reports.report.BahmniReportBuilder;
 import org.bahmni.reports.template.BaseReportTemplate;
+import org.bahmni.reports.util.BahmniLocale;
 import org.bahmni.reports.util.BahmniReportUtil;
 import org.bahmni.webclients.HttpClient;
 
@@ -47,7 +48,7 @@ public class ReportGenerator {
             BaseReportTemplate reportTemplate = report.getTemplate(bahmniReportsProperties);
             Connection connection = allDatasources.getConnectionFromDatasource(reportTemplate);
             BahmniReportBuilder reportBuilder = BahmniReportUtil.build(report, connection, reportParams.getStartDate(),
-                    reportParams.getEndDate(), resources, reportParams.getPaperSize(), bahmniReportsProperties);
+                    reportParams.getEndDate(), reportParams.getTitleKey(), resources, reportParams.getPaperSize(), bahmniReportsProperties);
             List<JasperReportBuilder> reports = reportBuilder.getReportBuilders();
             JasperConcatenatedReportBuilder concatenatedReportBuilder = concatenatedReport().concatenate(reports.toArray(new JasperReportBuilder[reports.size()]));
             converter.applyReportTemplates(reports, reportParams.getResponseType());
@@ -72,7 +73,7 @@ public class ReportGenerator {
 
     private void validateResponseTypeSupportedFor(Report report, String responseType) {
         if (report != null && report.getType().equals("concatenated") && responseType.equals("text/csv")) {
-            throw new UnsupportedOperationException("CSV format is not supported for Concatenated report");
+            throw new UnsupportedOperationException(BahmniLocale.getString("CSV_NOT_SUPPORTED_FOR_CONCATENATED_ERROR"));
         }
     }
 }

@@ -36,6 +36,19 @@ public class BahmniReportUtil {
         return build;
     }
 
+    public static BahmniReportBuilder build(Report report, Connection connection,
+                                            String startDate, String endDate, String titleKey,
+                                            List<AutoCloseable> resources, PageType pageType,
+                                            BahmniReportsProperties bahmniReportsProperties) throws Exception {
+        BaseReportTemplate reportTemplate = report.getTemplate(bahmniReportsProperties);
+        JasperReportBuilder reportBuilder = report();
+        reportBuilder = new ReportHeader().add(reportBuilder, report.getName(), titleKey, startDate, endDate);
+        BahmniReportBuilder build = reportTemplate.build(connection, reportBuilder, report, startDate, endDate, resources, pageType);
+        excludeColumns(report.getConfig(), reportBuilder);
+        orderColumns(report.getConfig(), reportBuilder);
+        return build;
+    }
+
     private static boolean contains(List<String> columns, String searchColumn) {
         for (String column : columns) {
             if (column.equalsIgnoreCase(searchColumn)) {
@@ -97,7 +110,7 @@ public class BahmniReportUtil {
                 filterColumns(reportBuilder.getReport(), excludeColumnsList);
             }
             if (reportBuilder.getReport().getColumns().size() == 0) {
-                throw new IllegalArgumentException("You have excluded all columns.");
+                throw new IllegalArgumentException(BahmniLocale.getString("EXCLUDED_ALL_COLUMNS_ERROR"));
             }
         }
     }

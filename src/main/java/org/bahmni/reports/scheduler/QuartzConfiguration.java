@@ -2,6 +2,7 @@ package org.bahmni.reports.scheduler;
 
 import org.apache.log4j.Logger;
 import org.bahmni.reports.model.AllDatasources;
+import org.bahmni.reports.util.BahmniLocale;
 import org.quartz.spi.JobFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -33,7 +34,7 @@ public class QuartzConfiguration {
             ReportsScheduler.scheduleCrons(quartzScheduler);
         } catch (Exception e) {
             logger.error("Cannot start scheduler", e);
-            throw new RuntimeException("Cannot start scheduler:-", e);
+            throw new RuntimeException(BahmniLocale.getResourceBundle().getString("CANT_START_SCHEDULER") + ":-", e);
         }
         return quartzScheduler;
     }
