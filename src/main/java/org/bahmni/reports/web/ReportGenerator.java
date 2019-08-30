@@ -73,7 +73,7 @@ public class ReportGenerator {
 
     private void validateResponseTypeSupportedFor(Report report, String responseType) {
         if (report != null && report.getType().equals("concatenated") && responseType.equals("text/csv")) {
-            throw new UnsupportedOperationException(BahmniLocale.getResourceBundle().getString("CSV_NOT_SUPPORTED_FOR_CONCATENATED_ERROR"));
+            throw new UnsupportedOperationException(BahmniLocale.getString("CSV_NOT_SUPPORTED_FOR_CONCATENATED_ERROR"));
         }
     }
 }

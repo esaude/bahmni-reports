@@ -110,7 +110,7 @@ public class BahmniReportUtil {
                 filterColumns(reportBuilder.getReport(), excludeColumnsList);
             }
             if (reportBuilder.getReport().getColumns().size() == 0) {
-                throw new IllegalArgumentException(BahmniLocale.getResourceBundle().getString("EXCLUDED_ALL_COLUMNS_ERROR"));
+                throw new IllegalArgumentException(BahmniLocale.getString("EXCLUDED_ALL_COLUMNS_ERROR"));
             }
         }
     }

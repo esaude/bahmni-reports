@@ -1,5 +1,6 @@
 package org.bahmni.reports.util;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -30,5 +31,25 @@ public class BahmniLocale {
 
     public static ResourceBundle getResourceBundle(String filename){
         return ResourceBundle.getBundle(filename, getLocale());
+    }
+
+    public static String getString(String key){
+        String val = getResourceBundle().getString(key);
+        try {
+            return new String(val.getBytes("ISO-8859-1"), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return getResourceBundle().getString(key);
+    }
+
+    public static String getString(String filename, String key){
+        String val = getResourceBundle(filename).getString(key);
+        try {
+            return new String(val.getBytes("ISO-8859-1"), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return getResourceBundle().getString(key);
     }
 }

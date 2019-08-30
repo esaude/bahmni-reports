@@ -60,8 +60,8 @@ public class ReportHeader {
 
     private void addDatesSubHeader(String startDate, String endDate, HorizontalListBuilder headerList) {
         if (startDate.equalsIgnoreCase("null") || endDate.equalsIgnoreCase("null")) return;
-        String from  = BahmniLocale.getResourceBundle().getString("FROM");
-        String to  = BahmniLocale.getResourceBundle().getString("TO");
+        String from  = BahmniLocale.getString("FROM");
+        String to  = BahmniLocale.getString("TO");
         headerList.add(cmp.text(String.format("%s %s %s %s",from, startDate, to, endDate))
                 .setStyle(Templates.bold12CenteredStyle)
                 .setHorizontalAlignment(HorizontalAlignment.CENTER))
@@ -71,7 +71,7 @@ public class ReportHeader {
     private void addReportGeneratedDateSubHeader(HorizontalListBuilder headerList) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
         String dateString = simpleDateFormat.format(new Date());
-        String reportGenerated = BahmniLocale.getResourceBundle().getString("REPORT_GENERATED_ON");
+        String reportGenerated = BahmniLocale.getString("REPORT_GENERATED_ON");
         headerList.add(cmp.text(reportGenerated + " " + dateString)
                 .setStyle(Templates.bold12CenteredStyle)
                 .setHorizontalAlignment(HorizontalAlignment.CENTER))

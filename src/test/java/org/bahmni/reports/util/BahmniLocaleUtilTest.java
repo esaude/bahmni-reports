@@ -26,4 +26,12 @@ public class BahmniLocaleUtilTest {
         Assert.assertEquals(resourceBundle.getString("FROM"), "De");
 
     }
+
+    @Test
+    public void shouldGetStringInUTF8() {
+        BahmniLocale.setLocaleName("pt");
+        Assert.assertEquals(BahmniLocale.getLocaleName(), "pt");
+        Assert.assertEquals(BahmniLocale.getString(LOCALE_FILE_NAME, "GENERATED"), "Relatório gerado em");
+
+    }
 }
