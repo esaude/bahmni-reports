@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.bahmni.reports.BahmniReportsProperties;
 import org.bahmni.reports.persistence.ScheduledReport;
 import org.bahmni.reports.persistence.ScheduledReportRepository;
+import org.bahmni.reports.util.BahmniLocale;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -58,7 +59,7 @@ public class CleanReportsJob implements Job {
 
     private void isValid(int days) {
         if (days < 0) {
-            throw new IllegalArgumentException("Days must be positive");
+            throw new IllegalArgumentException(BahmniLocale.getResourceBundle().getString("POSITIVE_DAYS_ERROR"));
         }
     }
 

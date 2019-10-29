@@ -12,6 +12,7 @@ import org.bahmni.reports.model.GenericObservationFormReportConfig;
 import org.bahmni.reports.model.Report;
 import org.bahmni.reports.model.UsingDatasource;
 import org.bahmni.reports.report.BahmniReportBuilder;
+import org.bahmni.reports.util.BahmniLocale;
 import org.bahmni.reports.util.CommonComponents;
 import org.bahmni.webclients.WebClientsException;
 import org.quartz.impl.jdbcjobstore.InvalidConfigurationException;
@@ -75,10 +76,10 @@ public class GenericObservationFormReportTemplate extends BaseReportTemplate<Gen
                createAndAddAgeGroupColumn(jasperReport, report.getConfig());
            }
            else{
-               throw new InvalidConfigurationException("Please provide a valid Form Name");
+               throw new InvalidConfigurationException(BahmniLocale.getResourceBundle().getString("PROVIDE_VALID_FORM_NAME"));
            }
         } else {
-            throw new InvalidConfigurationException("You need configure atleast one observation form to filter");
+            throw new InvalidConfigurationException(BahmniLocale.getResourceBundle().getString("CONFIGURE_OBSERVATION_ERROR"));
         }
 
         GenericDao genericObservationFormDao = new GenericObservationFormDaoImpl(report, bahmniReportsProperties);
